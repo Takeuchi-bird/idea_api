@@ -1,7 +1,4 @@
 class IdeasController < ApplicationController
-
-
-
   def create
     # 1. カテゴリをDBから検索
     @category = Category.find_by(name: params[:category_name])
@@ -20,7 +17,6 @@ class IdeasController < ApplicationController
     render status: 201
   end
 
-
   def index
     if params[:category_name].present?
       @category = Category.find_by(name: params[:category_name])
@@ -28,7 +24,7 @@ class IdeasController < ApplicationController
     else
       @ideas = Idea.all
     end
-    render json: {data: ActiveModelSerializers::SerializableResource.new(@ideas, each_serializer: IdeaSerializer)}
+    render json: { data: ActiveModelSerializers::SerializableResource.new(@ideas, each_serializer: IdeaSerializer) }
   end
 
   # def index_json(ideas)
