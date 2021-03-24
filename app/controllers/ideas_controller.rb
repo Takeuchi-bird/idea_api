@@ -7,7 +7,7 @@ class IdeasController < ApplicationController
     @category = Category.create(name: params[:category_name]) if @category.nil?
     @idea = Idea.new(category_id: @category.id, body: params[:body])
 
-    if @idea.save!
+    if @idea.save
       render status: 201
     else
       render status: 422
