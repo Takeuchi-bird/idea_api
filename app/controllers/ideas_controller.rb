@@ -5,10 +5,9 @@ class IdeasController < ApplicationController
 
     # 2. カテゴリがなければ、カテゴリを作成（Category.new or Category.create）
     @category = Category.create(name: params[:category_name]) if @category.nil?
-
     @idea = Idea.new(category_id: @category.id, body: params[:body])
 
-    if @idea.save
+    if @idea.save!
       render status: 201
     else
       render status: 422
@@ -22,7 +21,7 @@ class IdeasController < ApplicationController
       # カテゴリが存在しない場合、404
       render status: 404 and return if @category.nil?
 
-      @ideas = Idea.find_by(category_id: @category.id)
+      @ideas = Idea.where(category_id: @category.id)
     else
       # カテゴリが指定されていない場合
       @ideas = Idea.all

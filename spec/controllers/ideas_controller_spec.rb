@@ -12,9 +12,19 @@ describe IdeasController, type: :controller do
     it "アイデア一覧を取得" do
       get :index
       json = JSON.parse(response.body)
+      p json['data']
 
       expect(response.status).to eq(200)
       expect(json['data'].length).to eq(2)
+    end
+
+    it "カテゴリを絞り込んで、アイデア一覧を取得" do
+      get :index, params: {category_name: 'ios'}
+      json2 = JSON.parse(response.body)
+      p json2['data'].length
+
+      expect(response.status).to eq(200)
+      expect(json2['data'].length).to eq(1)
     end
   end
 end
