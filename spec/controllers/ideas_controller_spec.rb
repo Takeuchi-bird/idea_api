@@ -9,22 +9,30 @@ describe IdeasController, type: :controller do
       FactoryBot.create(:idea, body: "体重測定アプリ", category: category2)
     end
 
-    it "アイデア一覧を取得" do
-      get :index
-      json = JSON.parse(response.body)
-      p json['data']
+    context "正常系" do
+      it "アイデア一覧を取得" do
+        get :index
+        json = JSON.parse(response.body)
 
-      expect(response.status).to eq(200)
-      expect(json['data'].length).to eq(2)
+        expect(response.status).to eq(200)
+        expect(json['data'].length).to eq(2)
+      end
+
+      it "カテゴリを絞り込んで、アイデア一覧を取得" do
+        get :index, params: {category_name: 'ios'}
+        json = JSON.parse(response.body)
+
+        expect(response.status).to eq(200)
+        expect(json['data'].length).to eq(1)
+      end
     end
 
-    it "カテゴリを絞り込んで、アイデア一覧を取得" do
-      get :index, params: {category_name: 'ios'}
-      json2 = JSON.parse(response.body)
-      p json2['data'].length
+    context "異常系" do
+      it "カテゴリがないため、エラー" do
+        get :index, params: {category_name: 'web'}
 
-      expect(response.status).to eq(200)
-      expect(json2['data'].length).to eq(1)
+        expect(response.status).to eq(404)
+      end
     end
   end
 end
