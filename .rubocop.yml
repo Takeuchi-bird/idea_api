@@ -1,0 +1,35 @@
+AllCops:
+  # 除外するディレクトリを設定。例えばschemaやmigrationファイルなどは書き直すことが少ないため、検知対象外に
+  Exclude:
+    - bin/*
+    - db/schema.rb
+    - node_modules/**/*
+    - db/migrate/*
+    - vendor/**/*
+  # Rails向けのチェックを行う
+  Rails:
+    enabled: true
+
+# "Missing top-level class documentation comment."を無効
+Style/Documentation:
+  Enabled: false
+
+# "Prefer single-quoted strings when you don't need string interpolation or special symbols."を無効
+Style/StringLiterals:
+  Enabled: false
+
+# "Line is too long"を無効
+Metrics/LineLength:
+  Enabled: false
+
+#'frozen_string_literal: true'を無効
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Use only ascii symbols in commentsを無効（日本語のコメントOKにする）
+AsciiComments:
+  Enabled: false
+
+# Do not use block commentsを無効（ブロックコメントをOKにする）
+Style/BlockComments:
+  Enabled: false
