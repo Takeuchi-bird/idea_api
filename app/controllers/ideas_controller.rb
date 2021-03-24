@@ -5,16 +5,18 @@ class IdeasController < ApplicationController
 
     # 2. カテゴリがなければ、カテゴリを作成（Category.new or Category.create）
     if @category.nil?
-      @category_created = Category.create(name: params[:category_name])
-      Idea.create(category_id: @category_created.id, body: params[:body])
+      @category_new = Category.new(name: params[:category_name])
+      @idea_new = Idea.new(category_id: @category_new.id, body: params[:body])
     else
       # Idea.create(id: （自動で決まる）,category_id: @category.id, body: params[:body])
-      Idea.create(category_id: @category.id, body: params[:body])
+      @idea_new = Idea.new(category_id: @category.id, body: params[:body])
     end
 
-    # 3. ideaをcreate
-
-    render status: 201
+    if @idea_new.save
+      render status: 201
+    else
+      render status: 422
+    end
   end
 
   def index
