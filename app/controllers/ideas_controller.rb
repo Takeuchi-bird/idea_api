@@ -18,10 +18,16 @@ class IdeasController < ApplicationController
   end
 
   def index
+    # カテゴリが指定されている場合、カテゴリに紐づくアイデアを返す
     if params[:category_name].present?
       @category = Category.find_by(name: params[:category_name])
+      # カテゴリが存在しない場合、404
+      if @category.nil?
+        render status: 404 and return
+      end
       @ideas = Idea.find_by(category_id: @category.id)
     else
+      # カテゴリが指定されていない場合
       @ideas = Idea.all
     end
     render json: { data: ActiveModelSerializers::SerializableResource.new(@ideas, each_serializer: IdeaSerializer) }
